@@ -1,0 +1,123 @@
+<ion-content [fullscreen]="true" class="booking-content">
+  <main class="booking-page">
+    <header class="topbar">
+      <a class="brand" href="/tabs/tab1" aria-label="Rouge, accueil">
+        <span class="brand-mark">R</span>
+        <span>ROUGE<span class="brand-period">.</span></span>
+      </a>
+      <button class="city-picker" type="button" aria-label="Ville sélectionnée : Paris">
+        <span class="city-dot"></span>
+        PARIS
+        <ion-icon name="chevron-down-outline" aria-hidden="true"></ion-icon>
+      </button>
+      <a class="avatar-link" href="/tabs/tab3" aria-label="Mon compte">É</a>
+    </header>
+
+    <section class="intro">
+      <div>
+          <p class="eyebrow">{{ todayLabel }} · PARIS</p>
+        <h1>On vous emmène<span>.</span></h1>
+      </div>
+      <span class="availability"><span></span> Chauffeurs disponibles</span>
+    </section>
+
+    <section class="map-panel" aria-label="Carte du quartier de Paris">
+      <iframe
+        title="Carte du 11e arrondissement de Paris"
+        src="https://www.openstreetmap.org/export/embed.html?bbox=2.353%2C48.846%2C2.382%2C48.862&layer=mapnik&marker=48.853%2C2.367"
+        loading="lazy"
+        referrerpolicy="no-referrer"
+      ></iframe>
+      <div class="map-label"><span class="map-pulse"></span> PARIS 11<sup>e</sup></div>
+      <div class="map-controls" aria-hidden="true">
+        <span><ion-icon name="locate-outline"></ion-icon></span>
+      </div>
+      <div class="map-caption"><span class="caption-dot"></span> Autour de vous <strong>·</strong> 12 chauffeurs</div>
+    </section>
+
+    <section class="ride-form" aria-labelledby="route-heading">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">VOTRE TRAJET</p>
+          <h2 id="route-heading">Où allez-vous ?</h2>
+        </div>
+        <button class="icon-action" type="button" (click)="swapLocations()" aria-label="Inverser départ et arrivée">
+          <ion-icon name="swap-vertical-outline"></ion-icon>
+        </button>
+      </div>
+
+      <div class="route-fields">
+        <label class="route-field pickup-field">
+          <span class="route-symbol pickup-symbol"></span>
+          <span class="field-copy">
+            <span class="field-label">DÉPART</span>
+            <input name="pickup" [(ngModel)]="pickup" placeholder="Adresse de départ" autocomplete="street-address" />
+          </span>
+          <button class="locate-button" type="button" (click)="useCurrentLocation()" aria-label="Utiliser ma position">
+            <ion-icon name="navigate-outline"></ion-icon>
+          </button>
+        </label>
+        <div class="route-connector"></div>
+        <label class="route-field destination-field">
+          <span class="route-symbol destination-symbol"></span>
+          <span class="field-copy">
+            <span class="field-label">ARRIVÉE</span>
+            <input name="destination" [(ngModel)]="destination" placeholder="Où souhaitez-vous aller ?" autocomplete="street-address" />
+          </span>
+          <ion-icon class="destination-arrow" name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+        </label>
+      </div>
+
+      <div class="quick-destinations" aria-label="Destinations fréquentes">
+        <button type="button" (click)="setDestination('Gare de Lyon, Paris')"><ion-icon name="train-outline"></ion-icon> Gare de Lyon</button>
+        <button type="button" (click)="setDestination('Aéroport Paris-Orly')"><ion-icon name="airplane-outline"></ion-icon> Orly</button>
+        <button type="button" (click)="setDestination('Aéroport Paris-Charles de Gaulle')"><ion-icon name="airplane-outline"></ion-icon> CDG</button>
+      </div>
+
+      <div class="ride-options-heading">
+        <div>
+          <p class="eyebrow">À VOUS DE CHOISIR</p>
+          <h2>Votre voiture</h2>
+        </div>
+        <label class="time-select">
+          <ion-icon name="time-outline" aria-hidden="true"></ion-icon>
+          <select name="rideTime" [(ngModel)]="rideTime" aria-label="Moment de la course">
+            <option value="now">Maintenant</option>
+            <option value="30min">Dans 30 min</option>
+            <option value="tonight">Ce soir, 19 h</option>
+          </select>
+          <ion-icon name="chevron-down-outline" aria-hidden="true"></ion-icon>
+        </label>
+      </div>
+
+      <div class="vehicle-list" role="group" aria-label="Choisir un véhicule">
+        @for (vehicle of vehicles; track vehicle.id) {
+          <button class="vehicle-option" [class.selected]="selectedVehicle === vehicle.id" type="button" (click)="selectedVehicle = vehicle.id" [attr.aria-pressed]="selectedVehicle === vehicle.id">
+            <span class="vehicle-illustration" [class]="'vehicle-illustration ' + vehicle.id"><ion-icon [name]="vehicle.icon"></ion-icon></span>
+            <span class="vehicle-info"><strong>{{ vehicle.name }}</strong><small>{{ vehicle.description }} · {{ vehicle.eta }}</small></span>
+            @if (selectedVehicle === vehicle.id) {
+              <span class="selected-indicator"><ion-icon name="checkmark-outline"></ion-icon></span>
+            }
+            <span class="vehicle-price">{{ vehicle.price }}<small> €</small></span>
+          </button>
+        }
+      </div>
+
+      @if (bookingMessage) {
+        <div class="booking-message" role="status"><ion-icon name="checkmark-circle-outline"></ion-icon>{{ bookingMessage }}</div>
+        <button class="history-button" type="button" (click)="viewRides()">Voir ma course <ion-icon name="arrow-forward-outline"></ion-icon></button>
+      }
+      @if (formError) {
+        <p class="form-error" role="alert">{{ formError }}</p>
+      }
+
+      <button class="book-button" type="button" (click)="requestRide()">
+        <span>Réserver ma course</span>
+        <span class="book-price">{{ selectedVehiclePrice }} € <ion-icon name="arrow-forward-outline"></ion-icon></span>
+      </button>
+      <p class="payment-note"><ion-icon name="lock-closed-outline"></ion-icon> Paiement sécurisé · Annulation gratuite</p>
+    </section>
+
+    <footer class="service-note"><span>ROUGE<span class="brand-period">.</span></span> La ville, à votre rythme.</footer>
+  </main>
+</ion-content>

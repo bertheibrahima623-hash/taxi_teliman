@@ -1,0 +1,69 @@
+<ion-content [fullscreen]="true" class="rides-content">
+  <main class="rides-page">
+    <header class="page-topbar">
+      <a class="brand" href="/tabs/tab1"><span class="brand-mark">R</span> ROUGE<span class="brand-period">.</span></a>
+      <a class="avatar-link" href="/tabs/tab3" aria-label="Mon compte">É</a>
+    </header>
+
+    <section class="page-intro">
+      <p class="eyebrow">VOTRE MOBILITÉ, EN UN COUP D'ŒIL</p>
+      <h1>Mes courses<span>.</span></h1>
+      <p>Retrouvez vos trajets et gérez vos prochaines réservations.</p>
+    </section>
+
+    <section class="ride-summary" aria-label="Résumé de vos courses">
+      <div><strong>{{ completedRideCount.toString().padStart(2, '0') }}</strong><span>trajets réalisés</span></div>
+      <span class="summary-divider"></span>
+      <div><strong>4.9<ion-icon name="star"></ion-icon></strong><span>note moyenne</span></div>
+      <span class="summary-stamp">CLIENT<br />FIDÈLE</span>
+    </section>
+
+    <nav class="ride-filters" aria-label="Filtrer les courses">
+      <button type="button" [class.active]="filter === 'upcoming'" (click)="filter = 'upcoming'">À venir <span>{{ countByStatus('upcoming') }}</span></button>
+      <button type="button" [class.active]="filter === 'past'" (click)="filter = 'past'">Passées <span>{{ countByStatus('past') }}</span></button>
+      <button type="button" [class.active]="filter === 'cancelled'" (click)="filter = 'cancelled'">Annulées <span>{{ countByStatus('cancelled') }}</span></button>
+    </nav>
+
+    <div class="ride-list">
+      @for (ride of visibleRides; track ride.id) {
+        <article class="ride-entry" [class.cancelled]="ride.status === 'cancelled'">
+          <div class="ride-entry-head">
+            <span class="ride-date"><strong>{{ ride.day }}</strong><span>{{ ride.date }}</span></span>
+            <span class="ride-status" [class.status-upcoming]="ride.status === 'upcoming'" [class.status-cancelled]="ride.status === 'cancelled'">
+              <span></span>{{ statusLabel(ride.status) }}
+            </span>
+            <strong class="ride-fare">{{ ride.price }} €</strong>
+          </div>
+          <div class="ride-route">
+            <span class="route-point origin"></span>
+            <div class="route-place"><small>DÉPART · {{ ride.time }}</small><strong>{{ ride.pickup }}</strong></div>
+            <span class="route-stem"></span>
+            <span class="route-point destination"></span>
+            <div class="route-place"><small>ARRIVÉE</small><strong>{{ ride.destination }}</strong></div>
+          </div>
+          <div class="ride-entry-foot">
+            <span class="ride-type"><ion-icon name="car-sport-outline"></ion-icon>{{ ride.vehicle }} · {{ ride.distance }}</span>
+            @if (ride.status === 'upcoming') {
+              <button type="button" class="text-action cancel-action" (click)="cancelRide(ride.id)">Annuler</button>
+            } @else if (ride.status === 'past') {
+              <button type="button" class="text-action" (click)="bookAgain()">Recommander <ion-icon name="arrow-forward-outline"></ion-icon></button>
+            }
+          </div>
+          @if (receiptId === ride.id) {
+            <p class="receipt-note" role="status">Reçu de {{ ride.price }} € · Paiement par carte Visa •••• 4821</p>
+          }
+          @if (ride.status === 'past') {
+            <button class="receipt-hitarea" type="button" (click)="toggleReceipt(ride.id)" [attr.aria-expanded]="receiptId === ride.id">{{ receiptId === ride.id ? 'Masquer le reçu' : 'Voir le reçu' }}</button>
+          }
+        </article>
+      } @empty {
+        <div class="empty-state">
+          <span class="empty-icon"><ion-icon name="receipt-outline"></ion-icon></span>
+          <h2>Aucune course ici</h2>
+          <p>Vos prochains trajets apparaîtront dans cet espace.</p>
+          <button type="button" class="primary-action" (click)="bookAgain()">Réserver une course <ion-icon name="arrow-forward-outline"></ion-icon></button>
+        </div>
+      }
+    </div>
+  </main>
+</ion-content>
