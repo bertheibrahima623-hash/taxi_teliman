@@ -1,0 +1,26 @@
+<ion-content [fullscreen]="true" class="page-content booking-page">
+  <header class="booking-header">
+    <button class="back-button" routerLink="/tabs/tab1"><ion-icon name="arrow-back"></ion-icon></button>
+    <div><p class="eyebrow">Réservation</p><h1>Votre trajet</h1></div>
+    <span class="stepper">1 / 3</span>
+  </header>
+
+  <section class="booking-visual">
+    <div class="map-grid"></div>
+    <div class="route-route"></div>
+    <div class="map-pin start"><ion-icon name="pin"></ion-icon></div>
+    <div class="map-pin end"><ion-icon name="location"></ion-icon></div>
+    <div class="car-marker"><ion-icon name="car"></ion-icon></div>
+    <div class="distance-card"><span>Estimation</span><strong>25 min</strong><small>5 km · Bamako</small></div>
+  </section>
+
+  <section class="booking-summary">
+    <div class="summary-title"><div><p class="eyebrow">Commande</p><h2>{{ vehicleName }}</h2></div><strong>{{ vehiclePrice }} FCFA</strong></div>
+    <div class="summary-row"><span><ion-icon name="calendar"></ion-icon></span><div><small>Date et heure</small><strong>Mercredi, 14 octobre · 10:30</strong></div></div>
+    <div class="summary-row"><span><ion-icon name="people"></ion-icon></span><div><small>Passagers</small><strong>1 passager</strong></div></div>
+    <div class="summary-row"><span><ion-icon name="pin"></ion-icon></span><div><small>Itinéraire</small><strong>ACI 2000 → Badalabougou</strong></div></div>
+    <div class="price-breakdown"><span>Prix du trajet</span><strong>{{ vehiclePrice }} FCFA</strong><span>Service</span><strong>0 FCFA</strong></div>
+    <button class="primary-button full" (click)="confirmBooking()" [disabled]="confirmed">{{ confirmed ? 'Réservation confirmée' : 'Confirmer la réservation' }} <ion-icon name="arrow-forward"></ion-icon></button>
+    <p class="confirmation-message" *ngIf="confirmed">Votre trajet a été réservé avec succès.</p>
+  </section>
+</ion-content>

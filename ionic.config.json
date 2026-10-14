@@ -1,0 +1,7 @@
+{
+  "name": "vtc",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

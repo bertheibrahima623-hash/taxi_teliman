@@ -1,0 +1,62 @@
+@mixin styles {
+	--violet: #8b5cf6; --violet-dark: #6d28d9; --ink: #211a2b; --muted: #777080; --line: #e6ddef;
+	display: block; color: var(--ink); font-family: 'DM Sans', sans-serif;
+.rides-content { --background: #f6f3fa; }
+.rides-page { width: min(100% - 36px, 720px); margin: 0 auto; padding: 12px 0 28px; }
+.page-topbar { display: flex; min-height: 56px; align-items: center; justify-content: space-between; }
+.brand { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); font: 800 15px 'Manrope', sans-serif; letter-spacing: 1px; text-decoration: none; }
+.brand-mark { display: grid; width: 29px; height: 29px; place-items: center; border-radius: 8px; background: var(--violet); color: #fff; font-size: 17px; }
+.brand-period, .page-intro h1 span { color: var(--violet-dark); }
+.avatar-link { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid #ded0f5; border-radius: 50%; background: #f0eaff; color: var(--violet-dark); font-size: 11px; font-weight: 800; text-decoration: none; }
+.page-intro { margin: 32px 0 22px; }
+.eyebrow { margin: 0 0 8px; color: #87818e; font-size: 9px; font-weight: 700; letter-spacing: 1.3px; }
+.page-intro h1 { margin: 0; font: 800 29px 'Manrope', sans-serif; }
+.page-intro > p:last-child { margin: 9px 0 0; color: var(--muted); font-size: 12px; }
+.ride-summary { display: flex; min-height: 92px; align-items: center; gap: 22px; padding: 0 19px; border-radius: 4px; background: #292331; color: #fff; }
+.ride-summary > div { display: grid; gap: 5px; }
+.ride-summary strong { display: flex; align-items: center; gap: 4px; font: 800 20px 'Manrope', sans-serif; }
+.ride-summary strong ion-icon { color: #f0bd55; font-size: 13px; }
+.ride-summary > div > span { color: #d2ccd9; font-size: 10px; }
+.summary-divider { height: 39px; border-left: 1px solid #ffffff30; }
+.summary-stamp { margin-left: auto; padding: 6px 8px; border: 1px solid #ffffff43; color: #d6c4f4; font: 700 8px/1.5 'DM Sans', sans-serif; letter-spacing: 1px; text-align: center; transform: rotate(-6deg); }
+.ride-filters { display: flex; gap: 22px; margin: 24px 0 12px; border-bottom: 1px solid #ded9e4; }
+.ride-filters button { position: relative; display: inline-flex; align-items: center; gap: 7px; padding: 0 0 12px; border: 0; background: transparent; color: #7c7782; font: 600 11px 'DM Sans', sans-serif; }
+.ride-filters button.active { color: var(--ink); font-weight: 700; }
+.ride-filters button.active::after { position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; background: var(--violet); content: ''; }
+.ride-filters button span { display: grid; min-width: 17px; height: 17px; place-items: center; border-radius: 9px; background: #eeeaf3; color: #6c6672; font-size: 9px; }
+.ride-list { display: grid; gap: 10px; }
+.ride-entry { position: relative; padding: 16px 16px 13px; border: 1px solid var(--line); border-radius: 4px; background: #fff; }
+.ride-entry.cancelled { opacity: .7; }
+.ride-entry-head { display: flex; align-items: center; gap: 12px; padding-bottom: 13px; border-bottom: 1px solid #f0efed; }
+.ride-date { display: grid; min-width: 51px; gap: 3px; }
+.ride-date strong { font: 800 19px 'Manrope', sans-serif; }
+.ride-date span { color: #86818b; font-size: 8px; font-weight: 700; letter-spacing: .8px; }
+.ride-status { display: inline-flex; align-items: center; gap: 5px; color: #888d91; font-size: 9px; }
+.ride-status > span { width: 6px; height: 6px; border-radius: 50%; background: #92979b; }
+.status-upcoming { color: #477c51; }
+.status-upcoming > span { background: #55a265; }
+.status-cancelled { color: #963e48; }
+.status-cancelled > span { background: #a3456a; }
+.ride-fare { margin-left: auto; font: 800 15px 'Manrope', sans-serif; }
+.ride-route { position: relative; display: grid; grid-template-columns: 10px 1fr; column-gap: 12px; row-gap: 14px; padding: 15px 0 13px; }
+.route-point { z-index: 1; width: 9px; height: 9px; margin-top: 4px; border: 2px solid var(--violet); border-radius: 50%; background: #fff; }
+.route-point.destination { border: 0; border-radius: 2px; background: var(--violet); }
+.route-stem { position: absolute; top: 26px; left: 4px; height: 26px; border-left: 1px dashed #c5c6c4; }
+.route-place { display: grid; gap: 4px; }
+.route-place small { color: #9a9da0; font-size: 8px; font-weight: 700; letter-spacing: .7px; }
+.route-place strong { overflow: hidden; font-size: 11px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+.ride-entry-foot { display: flex; min-height: 30px; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid #f0efed; }
+.ride-type { display: inline-flex; align-items: center; gap: 6px; color: #7b8083; font-size: 9px; }
+.ride-type ion-icon { color: var(--violet-dark); font-size: 15px; }
+.text-action { display: inline-flex; align-items: center; gap: 5px; padding: 6px 0 0 8px; border: 0; background: transparent; color: var(--violet-dark); font: 700 10px 'DM Sans', sans-serif; }
+.text-action ion-icon { font-size: 13px; }
+.cancel-action { color: #777d83; }
+.receipt-hitarea { position: absolute; right: 15px; bottom: 45px; border: 0; background: transparent; color: #92979a; font: 500 9px 'DM Sans', sans-serif; text-decoration: underline; text-underline-offset: 2px; }
+.receipt-note { margin: 10px 0 1px; padding: 9px; border-radius: 3px; background: #f6f3fa; color: #62686b; font-size: 10px; }
+.empty-state { display: grid; justify-items: center; padding: 43px 20px; border: 1px dashed #d8d2e0; border-radius: 4px; text-align: center; }
+.empty-icon { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 50%; background: #f0eaff; color: var(--violet-dark); font-size: 20px; }
+.empty-state h2 { margin: 13px 0 4px; font: 700 16px 'Manrope', sans-serif; }
+.empty-state p { margin: 0 0 16px; color: var(--muted); font-size: 11px; }
+.primary-action { display: inline-flex; align-items: center; gap: 9px; padding: 11px 14px; border: 0; border-radius: 3px; background: var(--violet-dark); color: #fff; font: 700 11px 'DM Sans', sans-serif; }
+@media (max-width: 390px) { .rides-page { width: calc(100% - 26px); } .ride-summary { gap: 14px; padding: 0 13px; } .ride-filters { gap: 16px; } }
+}

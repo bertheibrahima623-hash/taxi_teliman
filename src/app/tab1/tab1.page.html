@@ -1,0 +1,45 @@
+<ion-content [fullscreen]="true" class="booking-content">
+  <main class="booking-page">
+    <header class="topbar">
+      <a class="brand" href="/tabs/tab1" aria-label="Violeta, accueil"><span class="brand-mark">V</span><span>VIOLETA<span class="brand-period">.</span></span></a>
+      <button class="city-picker" type="button" aria-label="Ville sélectionnée : Bamako"><span class="city-dot"></span> BAMAKO <ion-icon name="chevron-down-outline" aria-hidden="true"></ion-icon></button>
+      <a class="avatar-link" href="/tabs/tab3" aria-label="Mon compte">KF</a>
+    </header>
+    <section class="intro">
+      <div><p class="eyebrow">{{ todayLabel }} · BAMAKO</p><h1>On vous emmène<span>.</span></h1></div>
+      <span class="availability"><span></span> Zone VTC à Bamako</span>
+    </section>
+    <section class="map-panel" aria-label="Carte de Bamako">
+      <iframe title="Carte du quartier ACI 2000 à Bamako" [src]="mapUrl" loading="lazy" referrerpolicy="no-referrer"></iframe>
+      <div class="map-label"><span class="map-pulse"></span> {{ mapLabel }}</div>
+      <div class="map-controls" aria-hidden="true"><span><ion-icon name="locate-outline"></ion-icon></span></div>
+      <div class="map-caption"><span class="caption-dot"></span> Zone de service · Bamako</div>
+    </section>
+    <section class="ride-form" aria-labelledby="route-heading">
+      <div class="section-heading"><div><p class="eyebrow">VOTRE TRAJET</p><h2 id="route-heading">Où allez-vous ?</h2></div><button class="icon-action" type="button" (click)="swapLocations()" aria-label="Inverser départ et arrivée"><ion-icon name="swap-vertical-outline"></ion-icon></button></div>
+      <div class="route-fields">
+        <label class="route-field pickup-field"><span class="route-symbol pickup-symbol"></span><span class="field-copy"><span class="field-label">DÉPART</span><input name="pickup" list="bamako-addresses" [(ngModel)]="pickup" (ngModelChange)="clearBookingState()" placeholder="Adresse de départ" autocomplete="street-address" /></span><button class="locate-button" type="button" (click)="useCurrentLocation()" [disabled]="isLocating" [attr.aria-label]="isLocating ? 'Localisation en cours' : 'Utiliser ma position'"><ion-icon name="navigate-outline"></ion-icon></button></label>
+        <div class="route-connector"></div>
+        <label class="route-field destination-field"><span class="route-symbol destination-symbol"></span><span class="field-copy"><span class="field-label">ARRIVÉE</span><input name="destination" list="bamako-addresses" [(ngModel)]="destination" (ngModelChange)="clearBookingState()" placeholder="Où souhaitez-vous aller ?" autocomplete="street-address" /></span><ion-icon class="destination-arrow" name="arrow-forward-outline" aria-hidden="true"></ion-icon></label>
+      </div>
+      <datalist id="bamako-addresses"><option value="ACI 2000, Bamako"></option><option value="Badalabougou, Bamako"></option><option value="Hamdallaye, Bamako"></option><option value="Hippodrome, Bamako"></option><option value="Sogoniko, Bamako"></option><option value="Kalaban Coura, Bamako"></option><option value="Aéroport international Modibo Keïta-Sénou"></option></datalist>
+      @if (locationError) { <p class="location-error" role="alert">{{ locationError }}</p> }
+      <div class="quick-destinations" aria-label="Destinations fréquentes">
+        <button type="button" (click)="setDestination('Place de l’Indépendance, Bamako')"><ion-icon name="business-outline"></ion-icon> Indépendance</button>
+        <button type="button" (click)="setDestination('Grand Marché, Bamako')"><ion-icon name="storefront-outline"></ion-icon> Grand Marché</button>
+        <button type="button" (click)="setDestination('Aéroport international Modibo Keïta-Sénou')"><ion-icon name="airplane-outline"></ion-icon> Aéroport Sénou</button>
+      </div>
+      <div class="ride-options-heading"><div><p class="eyebrow">À VOUS DE CHOISIR</p><h2>Votre voiture</h2></div><label class="time-select"><ion-icon name="time-outline" aria-hidden="true"></ion-icon><select name="rideTime" [(ngModel)]="rideTime" (ngModelChange)="clearBookingState()" aria-label="Moment de la course"><option value="now">Maintenant</option><option value="30min">Dans 30 min</option><option value="tonight">Ce soir, 19 h</option></select><ion-icon name="chevron-down-outline" aria-hidden="true"></ion-icon></label></div>
+      <div class="vehicle-list" role="group" aria-label="Choisir un véhicule">
+        @for (vehicle of vehicles; track vehicle.id) {
+          <button class="vehicle-option" [class.selected]="selectedVehicle === vehicle.id" type="button" (click)="selectVehicle(vehicle.id)" [attr.aria-pressed]="selectedVehicle === vehicle.id"><span class="vehicle-illustration" [class]="'vehicle-illustration ' + vehicle.id"><ion-icon [name]="vehicle.icon"></ion-icon></span><span class="vehicle-info"><strong>{{ vehicle.name }}</strong><small>{{ vehicle.description }} · {{ vehicle.eta }}</small></span>@if (selectedVehicle === vehicle.id) { <span class="selected-indicator"><ion-icon name="checkmark-outline"></ion-icon></span> }<span class="vehicle-price">{{ vehicle.price }}<small> FCFA</small></span></button>
+        }
+      </div>
+      @if (bookingMessage) { <div class="booking-message" role="status"><ion-icon name="checkmark-circle-outline"></ion-icon>{{ bookingMessage }}. Aucun chauffeur n’est contacté tant que le serveur de réservation n’est pas connecté.</div><button class="history-button" type="button" (click)="viewRides()">Voir ma demande <ion-icon name="arrow-forward-outline"></ion-icon></button> }
+      @if (formError) { <p class="form-error" role="alert">{{ formError }}</p> }
+      <button class="book-button" type="button" (click)="requestRide()" [disabled]="!!bookingMessage"><span>{{ bookingMessage ? 'Demande enregistrée' : 'Réserver ma course' }}</span><span class="book-price">{{ selectedVehiclePrice }} FCFA <ion-icon name="arrow-forward-outline"></ion-icon></span></button>
+      <p class="payment-note"><ion-icon name="lock-closed-outline"></ion-icon> Tarif indicatif · Sénou +4 000 FCFA · Paiement non connecté</p>
+    </section>
+    <footer class="service-note"><span>VIOLETA<span class="brand-period">.</span></span> La ville, à votre rythme.</footer>
+  </main>
+</ion-content>
